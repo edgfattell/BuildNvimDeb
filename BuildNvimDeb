@@ -1,0 +1,23 @@
+#! /bin/bash
+# Author: Edward Fattell
+# Purpose: Simple shell script to build and install Neovim from source as a Deb package.
+
+echo "WARNING: This script will remove the current installation of Neovim on Debian"
+read -p "Would you like to proceed? [y/N]" confirm
+
+if [[ $confirm == [nN] ]]; then
+  echo "Aborting installation."
+  exit 1
+fi
+
+echo "Please enter your password for apt. Your password will not be stored"
+sudo apt remove neovim
+sudo install ninja-build gettext cmake unzip curl
+git clone https://github.com/neovim/neovim
+cd ./neovim
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+cd ./build
+cpack -G DEB
+sudo spkg -i --force overwrite nvim-linux64.deb
+
+echo "Neovim should now be installed. Check by running nvim."

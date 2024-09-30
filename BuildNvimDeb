@@ -12,12 +12,12 @@ fi
 
 echo "Please enter your password for apt. Your password will not be stored"
 sudo apt remove neovim
-sudo install ninja-build gettext cmake unzip curl
+sudo apt install ninja-build gettext cmake unzip curl
 git clone https://github.com/neovim/neovim
 cd ./neovim
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 cd ./build
 cpack -G DEB
-sudo spkg -i --force overwrite nvim-linux64.deb
+sudo dpkg -i --force overwrite nvim-linux64.deb
 
 echo "Neovim should now be installed. Check by running nvim."
